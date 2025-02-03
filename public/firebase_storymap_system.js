@@ -8,16 +8,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebas
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import { getAuth, signInWithPopup, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { Configuration, OpenAIApi } from "https://cdn.jsdelivr.net/npm/openai@1.61.0/+esm";
+import { config } from '../config/config.js';
 
 // Firebase 설정
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+const firebaseConfig = config.firebase;
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -25,7 +19,17 @@ const auth = getAuth();
 const provider = new GithubAuthProvider();
 
 // OpenAI API 설정
-const openai = new OpenAIApi(new Configuration({ apiKey: "YOUR_OPENAI_API_KEY" }));
+const openai = new OpenAIApi(new Configuration({ 
+    apiKey: config.openai.apiKey 
+}));
+
+// Genesis Node 상수 정의 추가
+const GENESIS_NODE = {
+    id: "0",
+    title: "Genesis",
+    content: "From the abyss of nothingness, the Multiverse awakened through the power of GemSTON, each realm shimmering into existence like stars igniting within the light of creation, growing ever brighter as they flourished.",
+    owner: "system"
+};
 
 // GitHub 로그인 기능
 export async function loginWithGithub() {
@@ -56,15 +60,25 @@ export async function addStory(title, content, userId) {
 // Firestore에서 스토리 목록 가져오기
 export async function fetchStories() {
     const querySnapshot = await getDocs(collection(db, "stories"));
-    const list = document.getElementById("storyList");
-    list.innerHTML = "";
-
+    const stories = [];
+    
+    // Genesis Node 추가
+    stories.push(GENESIS_NODE);
+    
+    // 나머지 스토리들을 번호순으로 정렬하여 추가
     querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const item = document.createElement("li");
-        item.textContent = `${data.title}: ${data.summary}`;
-        list.appendChild(item);
+        stories.push(data);
     });
+    
+    // 파일명의 숫자를 기준으로 정렬
+    stories.sort((a, b) => {
+        const numA = parseInt(a.filename.match(/^\d+/)[0]);
+        const numB = parseInt(b.filename.match(/^\d+/)[0]);
+        return numA - numB;
+    });
+
+    return stories;
 }
 
 // OpenAI API를 활용한 요약 생성
