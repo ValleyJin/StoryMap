@@ -1,0 +1,23 @@
+"""
+Firebase Hosting 설정 파일로, public/ 폴더를 호스팅 대상으로 설정하며, 
+Firebase가 index.html을 기본 경로로 인식하도록 설정합니다.
+"""
+
+
+{
+    "hosting": {
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  }
+  

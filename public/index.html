@@ -1,0 +1,43 @@
+<!-- GitHub Pages의 메인 웹페이지 역할을 하며, Firebase Firestore 및 D3.js 시각화를 포함 -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyline Viewer</title>
+    <!-- 스타일 적용 -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase 및 스토리 관리 스크립트 -->
+    <script type="module" src="firebase_storymap_system.js"></script>
+    <script type="module" src="visualization.js"></script>
+</head>
+<body>
+    <h1>Storyline Viewer</h1>
+    
+    <!-- GitHub 로그인 버튼 -->
+    <button onclick="loginWithGithub()">Login with GitHub</button>
+    
+    <!-- 스토리 추가 입력창 -->
+    <input type="text" id="storyTitle" placeholder="Enter story title">
+    <textarea id="storyContent" placeholder="Enter story content"></textarea>
+    <button onclick="addStoryFromUI()">Add Story</button>
+    
+    <!-- Firestore에서 불러온 스토리 목록 -->
+    <ul id="storyList"></ul>
+    
+    <!-- D3.js를 활용한 스토리 네트워크 시각화 -->
+    <h2>Visualization</h2>
+    <div id="graphContainer"></div>
+</body>
+<script>
+    // UI에서 입력받은 스토리를 Firestore에 추가하는 함수
+    function addStoryFromUI() {
+        const title = document.getElementById("storyTitle").value;
+        const content = document.getElementById("storyContent").value;
+        import("./firebase_storymap_system.js").then(module => {
+            module.addStory(title, content);
+        });
+    }
+</script>
+</html>

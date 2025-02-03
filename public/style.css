@@ -1,0 +1,54 @@
+/* 웹페이지의 스타일을 지정하며, 입력 필드, 버튼, 스토리 목록, D3.js 그래프 컨테이너 스타일을 포함 */
+
+/* 기본 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* 입력 필드 스타일 */
+input, textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 스토리 목록 스타일 */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* D3.js 그래프 컨테이너 스타일 */
+#graphContainer {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    background-color: white;
+}
